@@ -1,1 +1,134 @@
+//HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ticktactoe.css">
+    <script src="./ticktactoe.js" defer></script>   
+    <title>Tic Tac Toe</title>
+</head>
+<body>
+    <header>
+        <h1>Tic Tac Toe</h1>
+    </header>
+    <main>
+        <table>
+            <tr>
+                <td onClick="start(this)" class="cell" id="d1" cells></td>
+                <td onClick="start(this)" class="cell" id="d2" cells></td>
+                <td onClick="start(this)" class="cell" id="d3" cells></td>
+            </tr>
+            <tr>
+                <td onClick="start(this)" class="cell" id="d4" cells></td>
+                <td onClick="start(this)" class="cell" id="d5" cells></td>
+                <td onClick="start(this)" class="cell" id="d6" cells></td>
+            </tr>
+            <tr>
+                <td onClick="start(this)" class="cell" id="d7" cells></td>
+                <td onClick="start(this)" class="cell" id="d8" cells></td>
+                <td onClick="start(this)" class="cell" id="d9" cells></td>
+            </tr>
+        </table>
+    </main>
+</body>
+</html>
 
+//CSS
+
+
+td {
+    border: 2px solid black;
+    height: 100px;
+    width: 100px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    font-family: cursive;
+    font-size: 2rem;
+}
+
+header {
+    text-align: center;
+    font-size: larger;
+    color: rgb(42, 106, 165);
+}
+
+table {
+    border-collapse: collapse;
+    position: absolute;
+    left: 50%;
+    margin-left: -155px;
+    top: 100px;
+}
+
+table tr:first-child td {
+    border-top: 0;
+}
+
+table tr:last-child td {
+    border-bottom: 0;
+}
+
+table tr td:first-child {
+    border-left: 0;
+}
+
+table tr td:last-child {
+    border-right: 0;
+}
+
+//JavaScript
+
+var turn = 1;  
+function start(fill) {
+    // if (turn > 9){
+    //     alert('Draw!');
+    //     reset();
+    // }
+    if (turn <= 9) {
+       if (turn % 2 != 0) {
+            document.getElementById(fill.id).innerHTML = 'O';
+        } else {
+            document.getElementById(fill.id).innerHTML = 'X';
+        }
+    }
+    turn++;
+    logic();
+}
+
+function logic() {
+    if (checkWin() == true) {
+        alert('WINNER!')
+        //console.log('winner');
+        reset();
+       } 
+       else if (turn > 9) {
+           alert('DRAW!');
+           reset();
+       }
+}
+
+
+function reset() {
+    for (var i = 1; i <= 9; i++) {
+        document.getElementById('d' + i).innerHTML = '';
+    }
+    turn = 1;
+}
+
+function checkWin() {
+    if (check('d1', 'd2', 'd3') || check('d1', 'd5', 'd9') || check('d1', 'd4', 'd7') || check('d3', 'd5', 'd7') || check('d4', 'd5', 'd6') || check('d7', 'd8', 'd9') || check('d2', 'd5', 'd8') || check('d3', 'd6', 'd9')) {
+        return true;
+    }
+}
+
+function check(d1, d2, d3) {
+    if (getData(d1) != '' && getData(d2) != '' && getData(d3) != '' && getData(d1) == getData(d2) && getData(d2) == getData(d3)) {
+        return true;
+    }
+}
+
+function getData(id) {
+    return document.getElementById(id).innerHTML;
+}
